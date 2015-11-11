@@ -1,0 +1,21 @@
+{
+  "description": "Модуль Контрагенты для Кардинал Кипер",
+  "author": "Khusamov Sukhrob <khusamov@yandex.ru>",
+  "name": "cardinalkeeper-contractor",
+  "version": "0.0.1",
+  "main": "module.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cardinalkeeper/contractor.git"
+  },
+  "engines": {
+    "node": "~4.1.2"
+  },
+  "dependencies": {
+    "cardinalkeeper": "~0.0.1"
+  },
+  "bugs": {
+    "url": "https://github.com/cardinalkeeper/contractor/issues",
+    "email": "khusamov@yandex.ru"
+  }
+}
