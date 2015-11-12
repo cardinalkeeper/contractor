@@ -1,7 +1,7 @@
 
 "use strict";
 
-module.exports = require("cardinalkeeper").action("create", function(request, response) {
+module.exports = require("cardinalkeeper").action(function(request, response) {
 	
 	let me = this;
 	
@@ -29,7 +29,10 @@ module.exports = require("cardinalkeeper").action("create", function(request, re
 		`
 	};
 	
-	me.database.oneOrNone(sql.insertIndividual, request.body)
+	me.database
+	
+		.oneOrNone(sql.insertIndividual, request.body)
+		
 		.then(function(individual) {
 			return me.database.oneOrNone(sql.selectOneContractor, individual)
 				.then(function(contractor) {
@@ -39,6 +42,7 @@ module.exports = require("cardinalkeeper").action("create", function(request, re
 					};
 				});
 		})
+		
 		.then(function(individual) {
 			return me.database.oneOrNone(sql.selectOneDocument, individual.contractor)
 				.then(function(document) {
@@ -46,12 +50,14 @@ module.exports = require("cardinalkeeper").action("create", function(request, re
 					return individual;
 				});
 		})
+		
 		.then(function(individual) {
 			individual.document["notes"] = request.body["document_notes"];
 			individual.document["date_start"] = request.body["document_date_start"];
 			individual.document["number"] = request.body["document_notes"];
 			return me.database.none(sql.updateOneDocument, individual.document).then(function() { return individual });
 		})
+		
 		.then(function(individual) {
 			request.body.client_id = request.body.document_id;
 			request.body.document_id = individual.document.document_id;
@@ -60,6 +66,7 @@ module.exports = require("cardinalkeeper").action("create", function(request, re
 				data: request.body
 			});
 		})
+		
 		.catch(function(error) {
 			console.log("Произошла ошибка при вставке нового физического лица:", error);
 			response.send({
